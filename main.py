@@ -1,6 +1,7 @@
 import pymysql
 import os
 import json
+import testdata
 from flask_cors import *
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 from flask import Flask,request
@@ -20,4 +21,5 @@ def gettest():
     return json.dumps(para,ensure_ascii=False,indent=4)
 
 if __name__ == '__main__':
+    testdata.sqldata()
     app.run(host='0.0.0.0',port=8081)

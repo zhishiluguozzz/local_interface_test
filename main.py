@@ -7,19 +7,41 @@ os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 from flask import Flask,request
 app = Flask(__name__)
 
-@app.route('/get1',methods=[ 'get'])
+
+c_hosts = "localhost"
+c_user = "admin"
+c_passwd = "123"
+c_db = "test"
+
+@app.route('/get1', methods=[ 'get' ])
 def gettest():
-    conn = pymysql.connect(host="localhost",user="admin",passwd="123",database="test",charset="utf8")
-    cur = conn.cursor()
+    connect = pymysql.connect(host=c_hosts, user=c_user, passwd=c_passwd, database=c_db, charset='utf8')
+    cur = connect.cursor()
     sql = "select * from student"
     cur.execute(sql)
     data = cur.fetchall()
     para = []
     for i in data:
-        text = {'id':i[0],'name':i[1],'major':i[2],'grade':i[3]}
+        text = {'id': i[0], 'name': i[1], 'major': i[2], 'grade': i[3]}
         para.append(text)
     return json.dumps(para,ensure_ascii=False,indent=4)
 
+
+@app.route('/post1', methods=['post'])
+def nametest():
+    input = request.json.get('input')
+    data = posttest(input)
+    return data
+
+def posttest(input):
+    connect = pymysql.connect(host=c_hosts, user=c_user, passwd=c_passwd, database=c_db, charset='utf8')
+    cur = connect.cursor()
+    sql = "select * from student where name='%s'" % input
+    cur.execute(sql)
+    data = cur.fetchone()
+    text = {'id': data[0], 'name': data[1], 'major': data[2], 'grade': data[3]}
+    return json.dumps(text, ensure_ascii=False, indent=4)
+
 if __name__ == '__main__':
-    testdata.sqldata()
-    app.run(host='0.0.0.0',port=8081)
+    #testdata.sqldata()
+    app.run(host='0.0.0.0')

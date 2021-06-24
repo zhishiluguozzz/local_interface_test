@@ -1,7 +1,6 @@
 import pymysql
 import os
 import json
-import testdata
 from flask_cors import *
 os.environ['NLS_LANG'] = 'SIMPLIFIED CHINESE_CHINA.UTF8'
 from flask import Flask,request
@@ -38,10 +37,12 @@ def posttest(input):
     cur = connect.cursor()
     sql = "select * from student where name='%s'" % input
     cur.execute(sql)
-    data = cur.fetchone()
-    text = {'id': data[0], 'name': data[1], 'major': data[2], 'grade': data[3]}
-    return json.dumps(text, ensure_ascii=False, indent=4)
+    data = cur.fetchall()
+    para =[]
+    for i in data:
+        text = {'id': i[0], 'name': i[1], 'major': i[2], 'grade': i[3]}
+        para.append(text)
+    return json.dumps(para, ensure_ascii=False, indent=4)
 
 if __name__ == '__main__':
-    #testdata.sqldata()
     app.run(host='0.0.0.0')

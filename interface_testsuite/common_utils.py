@@ -15,7 +15,7 @@ def r_get(baseurl, baseparam, check):
 #         return True
 #     else:
 #         return False
-testurl = "http://localhost:5000/get1"
+testurl = ""
 testparam = ""
 check = 200
 result = r_get(testurl,testparam,check)

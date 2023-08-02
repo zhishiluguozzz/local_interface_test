@@ -7,9 +7,9 @@ from flask import Flask,request
 app = Flask(__name__)
 
 
-c_hosts = "localhost"
-c_user = "admin"
-c_passwd = "123"
+c_hosts = ""
+c_user = ""
+c_passwd = ""
 c_db = "test"
 
 @app.route('/get1', methods=[ 'get' ])
